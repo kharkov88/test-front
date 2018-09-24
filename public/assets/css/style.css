@@ -1,0 +1,14 @@
+
+#wrapper {
+    width: 500px;
+}
+
+.employer {
+    display: flex;
+    justify-content: space-between;
+}
+
+#myform {
+    padding: 10px;
+    margin: 35px 0 35px 0;
+}
