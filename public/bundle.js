@@ -67340,7 +67340,8 @@ var fetchLogin = exports.fetchLogin = function fetchLogin(obj) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var host = 'http://localhost:3000';
+var host = 'https://agile-falls-24527.herokuapp.com';
+
 var config = {
   api: {
     create: host + '/employer/',

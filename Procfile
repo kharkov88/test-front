@@ -1,2 +1,1 @@
-webpack
-web: node app
+web: npm run prod

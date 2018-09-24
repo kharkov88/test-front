@@ -1,4 +1,5 @@
-const host = 'http://localhost:3000'
+const host = 'https://agile-falls-24527.herokuapp.com'
+
 const config = {
   api:
     {

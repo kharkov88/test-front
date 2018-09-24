@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "webpack",
+    "prod": "webpack && node app",
     "dev": "webpack-dev-server --debug --hot --watch"
   },
   "dependencies": {
