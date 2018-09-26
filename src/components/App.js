@@ -1,54 +1,54 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {Router, Route} from 'react-router-dom'
-import {Container, Label} from 'semantic-ui-react'
-import { fetchData, deleteItem, createItem } from '../actions'
+import {connect} from 'react-redux'
+import {BrowserRouter, Route} from 'react-router-dom'
+import {Container, Dimmer, Loader} from 'semantic-ui-react'
+import {fetchData} from '../actions'
 import HomePage from './HomePage'
 import LoginPage from './LoginPage'
-import { createBrowserHistory } from 'history'
+import MessageBlock from './Message'
+import Menu from './Menu'
+import Employee from './Employee'
+import Department from './Department'
 
-const history = createBrowserHistory()
+import config from '../config'
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
-    this.renderMain = this.renderMain.bind(this)
+    super(props);
   }
-  componentDidMount () {
-    this.props.dispatch(fetchData)
+
+  componentDidMount() {
+    this.props.dispatch(fetchData(config.employees));
+    this.props.dispatch(fetchData(config.departments));
   }
-  render () {
-    let {flash} = this.props
+
+  render() {
+    let {isFetching} = this.props;
     return (
-      <Router history={history}>
+      <BrowserRouter>
         <Container id="wrapper">
-          {flash && <Label color={flash.type}>{flash.message}</Label>}
-          <Route exact path='/' component={this.renderMain}/>
+          <MessageBlock/>
+          <Menu/>
+          <Route exact path='/' component={HomePage}/>
+          <Route path='/employee' component={Employee}/>
           <Route path='/login' component={LoginPage}/>
+          <Route path='/department' component={Department}/>
+          <Dimmer active={isFetching} inverted>
+            <Loader inverted content='Loading'/>
+          </Dimmer>
         </Container>
-      </Router>
-    )
-  }
-  renderMain () {
-    let { data, isFetching, dispatch } = this.props
-    return (
-      <HomePage
-        data={data}
-        loading={isFetching}
-        deleteItem={id => dispatch(deleteItem(id))}
-        createItem={newItem => dispatch(createItem(newItem))}
-      />
+      </BrowserRouter>
     )
   }
 }
 
 const mapStateToProps = state => {
-  let { data, isFetching, flash } = state
+  let {data, isFetching, flash} = state;
   return {
     data,
     isFetching,
     flash
   }
-}
+};
 
 export default connect(mapStateToProps)(App)

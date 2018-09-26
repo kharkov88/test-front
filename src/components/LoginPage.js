@@ -1,61 +1,81 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import {Button, Container, Form, Dimmer, Loader} from "semantic-ui-react"
+import {Button, Container, Form, Dimmer, Loader, Label} from "semantic-ui-react"
 import {connect} from 'react-redux'
 import {fetchLogin} from '../actions'
 
+const config = {
+  msg_required: 'Required field!'
+};
 
 class LoginPage extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      user: null,
-      password: null
-    }
-    this.handleChangeLogin = this.handleChangeLogin.bind(this)
-    this.handleChangePass = this.handleChangePass.bind(this)
+      user: '',
+      password: '',
+      alert_user: '',
+      alert_pass: ''
+    };
+    this.handleChangeLogin = this.handleChangeLogin.bind(this);
+    this.handleChangePass = this.handleChangePass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChangeLogin(e) {
     this.setState({
-      user: e.target.value
+      user: e.target.value,
+      alert_user: ''
     })
   }
 
   handleChangePass(e) {
     this.setState({
-      password: e.target.value
+      password: e.target.value,
+      alert_pass: ''
     })
   }
 
   handleSubmit() {
-    let {dispatch} = this.props
-    let newObj = {
-      user: this.state.user,
-      password: this.state.password
+    let {user, password} = this.state;
+    if (!user || !password) {
+      !user && this.setState({
+        alert_user: config.msg_required
+      });
+      !password && this.setState({
+        alert_pass: config.msg_required
+      });
+    } else {
+      let {dispatch} = this.props;
+      let newObj = {
+        user: this.state.user,
+        password: this.state.password
+      };
+      dispatch(fetchLogin(newObj));
+      this.setState({
+        user: '',
+        password: ''
+      })
     }
-    dispatch(fetchLogin(newObj))
   }
 
   render() {
-    let {isFetching} = this.props
+    let {user, password, alert_user, alert_pass} = this.state;
+    let {isFetching} = this.props;
     return (
       <Container id='wrapper'>
-        <Link to="/">home</Link>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Field>
-            <label>Username</label>
-            <input type='text' placeholder='admin' onChange={this.handleChangeLogin}/>
+          <Form.Field required inline>
+            <input type='text' placeholder='admin' value={user} onChange={this.handleChangeLogin}/>
+            {alert_user && <Label pointing="left" color="red">{alert_user}</Label>}
           </Form.Field>
-          <Form.Field>
-            <label>Password</label>
-            <input type='password' placeholder='12345' onChange={this.handleChangePass}/>
+          <Form.Field required inline>
+            <input type='password' placeholder='12345' value={password} onChange={this.handleChangePass}/>
+            {alert_pass && <Label pointing="left" color="red">{alert_pass}</Label>}
           </Form.Field>
           <Button type='submit'>Submit</Button>
         </Form>
         <Dimmer active={isFetching} inverted>
-          <Loader inverted content='Loading' />
+          <Loader inverted content='Loading'/>
         </Dimmer>
       </Container>
     )
@@ -63,10 +83,10 @@ class LoginPage extends React.Component {
 }
 
 const mapStateToProps = state => {
-  let {isFetching} = state
+  let {isFetching} = state;
   return {
     isFetching
   }
-}
+};
 
 export default connect(mapStateToProps)(LoginPage)

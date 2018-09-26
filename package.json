@@ -1,10 +1,10 @@
 {
   "scripts": {
-    "prod": "webpack && node app",
+    "build": "NODE_ENV='production' webpack -p",
     "dev": "webpack-dev-server --debug --hot --watch"
   },
   "dependencies": {
-    "express": "^4.16.3",
+    "dotenv": "^6.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.5",
@@ -12,6 +12,7 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "reselect": "^3.0.1",
     "semantic-ui-react": "^0.82.5"
   },
   "devDependencies": {

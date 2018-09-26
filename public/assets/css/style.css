@@ -1,8 +1,13 @@
 
 #wrapper {
     width: 500px;
+    text-align: center;
 }
-
+#wrapper-department {
+    text-align: left;
+    width: 75%;
+    margin: auto;
+}
 .employer {
     display: flex;
     justify-content: space-between;
@@ -11,4 +16,20 @@
 #myform {
     padding: 10px;
     margin: 35px 0 35px 0;
+}
+
+#cpanel {
+    width: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#cpanel > i {
+    cursor: pointer;
+}
+.fa-trash {
+    color: rgba(193, 31, 19, 0.77);
+}
+.fa-edit {
+    color: rgba(101, 199, 0, 0.66);
 }
